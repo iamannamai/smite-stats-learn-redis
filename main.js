@@ -7,6 +7,8 @@ const volleyball = require('volleyball');
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 
+const redisCient = require('./server/redis');
+
 app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
 app.use(volleyball);
 app.use(bodyParser.json());
@@ -27,4 +29,7 @@ app.use(function (err, req, res, next) {
 });
 
 db.sync({})
-.then(() => app.listen(process.env.PORT || 5000));
+.then(() => {
+  app.listen(process.env.PORT || 5000);
+  //pre-fetch db data and cache in redis
+});
